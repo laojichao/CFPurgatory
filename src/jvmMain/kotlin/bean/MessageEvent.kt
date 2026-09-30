@@ -10,6 +10,7 @@ package bean
  *** desc：
  ***/
 
+/** 消息事件（预留占位，当前未被使用） */
 class MessageEvent {
     enum class
 

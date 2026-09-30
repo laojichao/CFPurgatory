@@ -63,17 +63,17 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.swing.UIManager
 
-var activeDate = 1806716799000L
-var observer : Observer<Int>? = null
-var dialogObserver : Observer<Int>? = null
-var disposable : Disposable? = null
+var activeDate = 1806716799000L // 授权到期时间戳(ms)
+var observer : Observer<Int>? = null // 授权状态观察者(刷新主界面)
+var dialogObserver : Observer<Int>? = null // 弹窗观察者(控制对话框显隐)
+var disposable : Disposable? = null // Rx订阅句柄
 var title = "行囊助手"
 var text = "鼠标滚轮按下开启或关闭"
 var tips = "侧键炼狱和USP(左键炼狱)"
 
 var warming = "侧键和左键炼狱不共存，只生效一个"
-var macro : Macro? = null
-var config : Config?= null
+var macro : Macro? = null // 宏引擎实例
+var config : Config?= null // 持久化配置
 val fileName = "config.json"
 val textStyle = TextStyle(
     fontWeight = FontWeight.Normal,
@@ -85,6 +85,10 @@ val logger = LogManager.getLogger("ui/Main.kt.kt")
 
 @Composable
 @Preview
+/**
+ * 主界面：授权状态显示、版本/侧键模式选择、延迟参数编辑。
+ * 编辑框仅在永久授权(editEnable)后开放。
+ */
 fun App() {
     //剪切板管理器
     val clipboard : ClipboardManager = LocalClipboardManager.current
@@ -418,6 +422,10 @@ dropDownMenu(initialIndex = config!!.version, items = items, onSelected = {
 
 // Start application
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
+/**
+ * 应用入口：读取配置→创建宏引擎→注册全局钩子→
+ * 装配主窗口(关闭最小化到托盘)、托盘图标与授权时间轮询。
+ */
 fun main() = application {
 
     //flatlaf是一个swing主题，可以通过在gradle中添加 implementation("com.formdev:flatlaf:2.3")使用
@@ -438,7 +446,7 @@ fun main() = application {
 
     // 将事件调度程序设置为swing-safe执行器服务。
     GlobalScreen.setEventDispatcher(SwingDispatchService())
-    GlobalScreen.registerNativeHook()
+    GlobalScreen.registerNativeHook() // 注册全局输入钩子(开始接收鼠标/键盘事件)
 
     //菜单里面有一个exit功能，这个变量判断是否关闭应用
     //是否退出
@@ -464,6 +472,7 @@ fun main() = application {
 
 
     //设置轮询内务15分一次获取服务器时间
+    // 每15分钟轮询服务器时间，校验临时授权是否过期
     disposable = Observable.interval(1,15, TimeUnit.MINUTES)
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())

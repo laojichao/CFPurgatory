@@ -14,6 +14,7 @@ import java.io.File
  *** desc：开机自启动
  ***/
     
+/** 开机自启：写入/删除 HKCU Run 注册表项，路径取运行目录 */
 fun AutoRun(autoRun: Boolean) {
     //                        val path = "D:\\Program Files\\CFPurgatory\\CFPurgatory.exe"
     val currentPath = File("").absolutePath;//运行目录

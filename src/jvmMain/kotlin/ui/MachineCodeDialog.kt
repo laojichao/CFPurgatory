@@ -19,6 +19,7 @@ import utils.MachineCodeUtil
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+/** 机器码弹窗：展示本机MD5机器码并提供复制，供作者生成激活码 */
 fun MachineCodeDialog(alertDialog: MutableState<Boolean>, onClose: () -> Unit, clipboardManager: ClipboardManager) {
     var code = MachineCodeUtil.getThisMachineCodeMd5()
     //只显示机器码，拿到机器码后，我们再加密给用户

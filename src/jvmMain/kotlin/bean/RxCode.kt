@@ -10,6 +10,7 @@ package bean
  *** desc：
  ***/
 
+/** 授权校验与弹窗流程的状态码约定（观察者消息） */
 class RxCode {
     companion object {
         val SUCCESS = 200;

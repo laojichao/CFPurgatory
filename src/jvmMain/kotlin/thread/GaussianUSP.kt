@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent
  *** desc：USP
  ***/
 
+/** USP速点宏线程：侧键触发的高频点射节奏，延迟高斯随机化 */
 class GaussianUSP : Thread() {
     private var robot: Robot? = null
 
@@ -41,6 +42,7 @@ class GaussianUSP : Thread() {
     }
 
 
+    /** 区间端点换算高斯参数：均值取中点，标准差取区间/6 */
     fun setDelay(delay: Delay) {
         leftMean = (delay.start + delay.stop) / 2
         leftStdDev = ((delay.stop - leftMean) / 3).coerceAtLeast(1)

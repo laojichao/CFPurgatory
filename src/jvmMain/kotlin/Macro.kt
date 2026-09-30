@@ -20,21 +20,25 @@ import thread.KnifeThread
  *** desc：宏脚本
  ***/
 
+/**
+ * 宏引擎：注册全局鼠标/键盘钩子，监听按键并驱动各宏线程。
+ * 按下时按版本/侧键配置启动对应线程，松开时停止。
+ */
 class Macro : NativeMouseInputListener, NativeKeyListener {
 
-    @Volatile var enable = false
-    @Volatile var timeEnable = false
+    @Volatile var enable = false // 宏总开关(鼠标中键切换)
+    @Volatile var timeEnable = false // 授权有效开关,过期禁止开启
 
-    @Volatile var version = 0
-    @Volatile var select = 0
+    @Volatile var version = 0 // 版本模式:0=侧键炼狱 1=K键炼狱
+    @Volatile var select = 0 // 侧键功能:0=USP速点 1=快刀
 
-    @Volatile var pDelay = Delay()
-    @Volatile var uDelay = Delay()
+    @Volatile var pDelay = Delay() // 炼狱延迟配置
+    @Volatile var uDelay = Delay() // USP延迟配置
 
-    private var pThread: GaussianPurgatory? = null
-    private var uspThread: GaussianUSP? = null
-    private var knifeThread: KnifeThread? = null
-    var listener : MouseListener? = null
+    private var pThread: GaussianPurgatory? = null // 炼狱宏线程
+    private var uspThread: GaussianUSP? = null // USP宏线程
+    private var knifeThread: KnifeThread? = null // 快刀宏线程
+    var listener : MouseListener? = null // 开关状态回调(刷新UI)
 
 
     constructor(version: Int, select: Int, pDelay: Delay, uDelay: Delay){
@@ -56,6 +60,7 @@ class Macro : NativeMouseInputListener, NativeKeyListener {
 //        println("nativeMouseClicked")//这个函数有延迟
     }
 
+    /** 按下：按配置启动对应宏线程；中键用于切换总开关 */
     override fun nativeMousePressed(nativeEvent: NativeMouseEvent?) {
         if (enable) {
             if (version == 1 && nativeEvent?.button == NativeMouseEvent.BUTTON1) {
@@ -97,6 +102,7 @@ class Macro : NativeMouseInputListener, NativeKeyListener {
         }
     }
 
+    /** 松开：停止对应宏线程 */
     override fun nativeMouseReleased(nativeEvent: NativeMouseEvent?) {
         if (version == 1 && nativeEvent?.button == NativeMouseEvent.BUTTON1) {
             pThread?.stopMacro()

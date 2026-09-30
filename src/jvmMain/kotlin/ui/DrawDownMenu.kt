@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
  ***/
 
 @Composable
+/** 渐变风格下拉选择框：选中索引持久化到config并同步到宏引擎 */
 fun dropDownMenu(initialIndex: Int = config!!.xbutton, items: List<String>, onSelected: (Int) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val disabledValue = "B"

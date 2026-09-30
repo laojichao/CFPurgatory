@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
  ***/
 
 @Composable
+/** 仿Material输入框：BasicTextField+背景/指示线/装饰盒 */
 fun EditText(
     value: String,
     onValueChange: (String) -> Unit,

@@ -17,5 +17,6 @@ import retrofit2.http.Query
 
 interface TimeService {
     @GET("/rest/api3.do")
+    /** 淘宝时间接口：返回服务器时间戳，用于授权过期校验 */
     fun getSysTime(@Query("api") api: String?): Call<SysTime?>?
 }

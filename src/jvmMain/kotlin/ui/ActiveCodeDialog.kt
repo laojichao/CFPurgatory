@@ -150,6 +150,10 @@ fun readActiveCode() {
 }
 
 
+/**
+ * 解密激活码并与本机机器码比对，发布授权结果：
+ * 永久码=PERMANENT_USE；10~19位时间戳=临时授权；否则无效。
+ */
 fun checkMachineCode(activeCode: String) {
     val machineCode = RSAUtils.decrypt(activeCode)
     val localmachineCode = MachineCodeUtil.getThisMachineCodeMd5()

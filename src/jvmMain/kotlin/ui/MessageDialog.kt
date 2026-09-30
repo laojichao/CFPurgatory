@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+/** 通用确认弹窗（确定/取消均仅关闭，当前未被使用） */
 fun MessageDialog(alertDialog: MutableState<Boolean>, onClose: () -> Unit, title : String, message : String) {
     if (alertDialog.value) {
         AlertDialog(

@@ -15,6 +15,10 @@ import java.awt.event.KeyEvent
  *** desc：炼狱快刀
  ***/
 
+/**
+ * 快刀宏线程：右键(切刀)后接左键攻击；
+ * 版本1用键盘K代替左键。节奏固定小随机抖动。
+ */
 class KnifeThread : Thread() {
     private var robot: Robot? = null
 

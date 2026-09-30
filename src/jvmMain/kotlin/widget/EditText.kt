@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
  ***/
 
 @Composable
+/** 旧版输入框组件（合并自远程分支，当前未被引用） */
 fun EditText(
     value: String,
     onValueChange: (String) -> Unit,

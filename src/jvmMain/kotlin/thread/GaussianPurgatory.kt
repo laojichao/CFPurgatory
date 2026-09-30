@@ -16,6 +16,10 @@ import java.awt.event.KeyEvent
  *** desc：炼狱
  ***/
 
+/**
+ * 炼狱连点宏线程：按住触发键期间循环点击，
+ * 按下时长与点击间隔均由高斯分布随机化以模拟人手。
+ */
 class GaussianPurgatory : Thread() {
     private var robot: Robot? = null
 
@@ -40,6 +44,7 @@ class GaussianPurgatory : Thread() {
     }
 
 
+    /** 区间端点换算高斯参数：均值取中点，标准差取区间/6(3σ覆盖) */
     fun setDelay(delay: Delay) {
         leftMean = (delay.start + delay.stop) / 2
         leftStdDev = ((delay.stop - leftMean) / 3).coerceAtLeast(1)
@@ -51,6 +56,7 @@ class GaussianPurgatory : Thread() {
         robot = Robot()
         println("lianyu")
         val generator = RandomDataGenerator()
+        // 版本0：鼠标左键连点（按下时长用begin~end，间隔用start~stop）
         if (version == 0) {
             while (isStop) {
                 robot!!.mousePress(InputEvent.BUTTON1_DOWN_MASK)
@@ -62,6 +68,7 @@ class GaussianPurgatory : Thread() {
                 robot!!.delay(up.coerceIn(1, 99999))
 //                println(up)
             }
+        // 版本1：改发K键（攻击键映射为键盘K）
         } else {
             while (isStop) {
                 robot!!.keyPress(KeyEvent.VK_K)

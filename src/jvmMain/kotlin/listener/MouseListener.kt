@@ -13,5 +13,6 @@ import jdk.jfr.Enabled
  ***/
 
 interface MouseListener {
+    /** 宏总开关状态变化时回调（用于刷新界面状态文案） */
     fun mouseEnable(enabled : Boolean)
 }

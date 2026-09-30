@@ -16,6 +16,7 @@ import kotlin.random.Random
  *** desc：压枪
  ***/
 
+/** 压枪线程：固定区间随机延迟连点/连发（当前未接入使用） */
 class Press : Thread() {
 
     private var robot: Robot? = null
